@@ -16,5 +16,4 @@
 
     <!-- Compartir -->
     <string name="share_report_title">Compartir reporte QA</string>
-    <string name="provider_authority">${applicationId}.fileprovider</string>
 </resources>
