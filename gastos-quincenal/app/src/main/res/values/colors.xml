@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Azul cielo de la primera quincena y naranja de la segunda. -->
+    <color name="sky_blue">#1976A6</color>
+    <color name="sky_blue_container">#E4F3FC</color>
+    <color name="orange">#B35A0A</color>
+    <color name="orange_container">#FFF0E1</color>
+
+    <color name="background_light">#FBFBFD</color>
+    <color name="background_dark">#1A1C1E</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

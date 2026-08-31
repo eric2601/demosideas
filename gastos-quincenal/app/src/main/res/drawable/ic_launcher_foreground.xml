@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Icono: dos bloques que representan las quincenas, azul cielo arriba y
+    naranja abajo, sobre una hoja de calendario.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M30,28h48a4,4 0,0 1,4 4v44a4,4 0,0 1,-4 4h-48a4,4 0,0 1,-4 -4v-44a4,4 0,0 1,4 -4z" />
+
+    <path
+        android:fillColor="#4FA8DC"
+        android:pathData="M32,38h44v14h-44z" />
+
+    <path
+        android:fillColor="#E8871E"
+        android:pathData="M32,56h44v14h-44z" />
+
+    <path
+        android:fillColor="#12587E"
+        android:pathData="M38,22h5v10h-5z" />
+
+    <path
+        android:fillColor="#12587E"
+        android:pathData="M65,22h5v10h-5z" />
+</vector>
