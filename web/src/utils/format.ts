@@ -22,7 +22,6 @@ export const fmtTime = (iso?: string | null) => (iso ? inTz(iso).format('HH:mm:s
 export const fmtDay = (day: string) => dayjs(day).format('ddd DD/MM');
 /** Fecha YYYY-MM-DD (sin hora): se muestra tal cual, sin conversión de zona. */
 export const fmtPlainDate = (d?: string | null) => (d ? dayjs(d.slice(0, 10)).format('DD/MM/YYYY') : '—');
-export const fromNow = (iso: string) => dayjs(iso).locale('es').fromNow?.() ?? '';
 
 /** Inicio del día (en la zona del negocio) como ISO UTC; `offsetDays=1` da el inicio del día siguiente. */
 export function dayBoundaryISO(date: dayjs.Dayjs, offsetDays = 0): string {
