@@ -21,14 +21,5 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1800,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          antd: ['antd', '@ant-design/icons'],
-          charts: ['recharts'],
-          vendor: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', 'socket.io-client', 'dayjs'],
-        },
-      },
-    },
   },
 });
