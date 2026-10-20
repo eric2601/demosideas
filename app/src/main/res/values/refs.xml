@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Icono para dispositivos anteriores a API 26 (sin adaptive-icon). -->
-    <item name="ic_launcher" type="mipmap">@drawable/ic_launcher_legacy</item>
-    <item name="ic_launcher_round" type="mipmap">@drawable/ic_launcher_legacy</item>
-</resources>
