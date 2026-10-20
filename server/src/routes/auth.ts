@@ -18,6 +18,7 @@ const loginLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skip: () => config.isTest,
+  skipSuccessfulRequests: true,
   handler: (_req, _res, next) => next(new AppError(429, 'TOO_MANY_ATTEMPTS', 'Demasiados intentos. Espera unos minutos.')),
 });
 

@@ -95,7 +95,7 @@ export default function ShortagesPage() {
         pagination={{ pageSize: 25, showSizeChanger: true, showTotal: (t) => `${t} faltantes` }}
         rowSelection={can('purchases.write') ? { selectedRowKeys: selected, onChange: (k) => setSelected(k as number[]), getCheckboxProps: (r) => ({ disabled: r.status === 'resuelto' }) } : undefined}
         columns={[
-          { title: 'Folio', dataIndex: 'folio', render: (v) => <b>{v}</b> },
+          { title: 'Folio', dataIndex: 'folio', render: (v) => <b style={{ whiteSpace: 'nowrap' }}>{v}</b> },
           { title: 'Producto', dataIndex: 'productName', render: (v, r) => <span>{v}<br /><Typography.Text type="secondary" style={{ fontSize: 12 }}>{r.sku}</Typography.Text></span> },
           { title: 'Requerido', dataIndex: 'quantityRequired', align: 'right', render: (v, r) => `${fmtQty(v)} ${r.unitName}` },
           { title: 'Faltante', dataIndex: 'quantityShort', align: 'right', render: (v) => <b>{fmtQty(v)}</b> },

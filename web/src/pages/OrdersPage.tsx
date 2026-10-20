@@ -45,7 +45,7 @@ export default function OrdersPage() {
         pagination={{ current: page, pageSize, total: data?.total, showSizeChanger: true, onChange: (p, s) => { setPage(p); setPageSize(s); }, showTotal: (t) => `${t} pedidos` }}
         onRow={(r) => ({ onClick: () => navigate(`/pedidos/${r.id}`), className: 'row-click' })}
         columns={[
-          { title: 'Folio', dataIndex: 'folio', render: (v) => <b>{v}</b> },
+          { title: 'Folio', dataIndex: 'folio', render: (v) => <b style={{ whiteSpace: 'nowrap' }}>{v}</b> },
           { title: 'Restaurante', dataIndex: 'restaurantName' },
           { title: 'Estado', dataIndex: 'status', render: (v) => <StatusTag map={ORDER_STATUS} value={v} /> },
           { title: 'Productos', dataIndex: 'itemCount', align: 'right' },

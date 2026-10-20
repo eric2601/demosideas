@@ -72,7 +72,7 @@ inventoryRouter.post('/inventory/adjustments', requirePermission('inventory.adju
 
 /** Conteo físico: registra la diferencia contra el sistema y genera el ajuste correspondiente. */
 inventoryRouter.post('/inventory/counts', requirePermission('inventory.adjust'), asyncHandler(async (req, res) => {
-  const b = parse(z.object({ productId: z.number().int().positive(), countedQuantity: z.number().min(0).max(1_000_000), notes: z.string().max(500).optional() }), req.body);
+  const b = parse(z.object({ productId: z.number().int().positive(), countedQuantity: z.number().min(0).max(1_000_000), reason: z.string().trim().min(3, 'Indica el motivo').max(300), notes: z.string().max(500).optional() }), req.body);
   const out = await withTx(async (tx) => {
     const cur = (await lockInventory(tx, [b.productId])).get(b.productId);
     if (!cur) throw notFound('Producto');
@@ -81,7 +81,7 @@ inventoryRouter.post('/inventory/counts', requirePermission('inventory.adjust'),
       await applyMovement(tx, {
         productId: b.productId, type: diff > 0 ? 'ajuste_positivo' : 'ajuste_negativo', quantity: Math.abs(diff),
         deltaOnHand: diff, deltaReserved: 0, userId: req.user!.id, referenceType: 'conteo',
-        reason: 'Inventario físico', notes: b.notes,
+        reason: `Inventario físico: ${b.reason}`, notes: b.notes,
       });
       if (diff < 0) await refreshShortage(tx, b.productId, { reason: 'inventario_fisico', userId: req.user!.id });
     }

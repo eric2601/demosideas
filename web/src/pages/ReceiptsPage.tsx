@@ -90,7 +90,7 @@ export default function ReceiptsPage() {
         pagination={{ current: page, pageSize, total: data?.total, showSizeChanger: true, onChange: (p, s) => { setPage(p); setPageSize(s); }, showTotal: (t) => `${t} entradas` }}
         onRow={(r) => ({ onClick: () => setDetail(r.id), className: 'row-click' })}
         columns={[
-          { title: 'Folio', dataIndex: 'folio', render: (v) => <b>{v}</b> },
+          { title: 'Folio', dataIndex: 'folio', render: (v) => <b style={{ whiteSpace: 'nowrap' }}>{v}</b> },
           { title: 'Fecha', dataIndex: 'receivedAt', render: fmtDateTime },
           { title: 'Proveedor', dataIndex: 'supplierName' },
           { title: 'Factura', dataIndex: 'invoiceRef', render: (v) => v ?? '—' },

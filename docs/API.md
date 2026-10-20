@@ -24,7 +24,7 @@ Listas paginadas: `?page=1&pageSize=25` → `{ data, total, page, pageSize }`.
 | `POST /products`, `PUT /products/:id`, `POST /products/:id/activate|deactivate`, `DELETE /products/:id` (409 si tiene historial) | `products.write` |
 | `GET /inventory?q&status`, `GET /inventory/:productId` | `inventory.read` — `onHand, reserved, available, minStock, lastCountDifference, lastMovementAt, stockStatus` |
 | `POST /inventory/adjustments {productId,type,quantity,reason,notes?,direction?}` | `inventory.adjust` (`correccion_autorizada`: solo admin, requiere `direction in|out`) |
-| `POST /inventory/counts {productId,countedQuantity}` | `inventory.adjust` |
+| `POST /inventory/counts {productId,countedQuantity,reason,notes?}` | `inventory.adjust` |
 | `GET /movements?productId&type&from&to&q&page` | `movements.read` |
 | `GET/POST /suppliers`, `PUT /suppliers/:id` | `suppliers.read/write` |
 | `GET /receipts`, `GET /receipts/:id`, `POST /receipts {supplierId,invoiceRef?,notes?,items:[{productId,quantity,unitCost}]}` | `receipts.read/create` |
@@ -46,7 +46,7 @@ Listas paginadas: `?page=1&pageSize=25` → `{ data, total, page, pageSize }`.
 |---|---|
 | `POST /orders {items:[{productId,quantity}],notes?}` + cabecera `Idempotency-Key` | restaurante (201; 200 si la clave ya existía) |
 | `GET /orders?status(uno o varios separados por coma)&q&restaurantId&page`, `GET /orders/:id` | almacén/entrega; el restaurante solo ve los suyos |
-| `POST /orders/:id/review` · `/accept {items?:[{itemId,authorizedQuantity}],note?}` · `/reserve-pending` · `/prepare {items?:[{itemId,preparedQuantity}],closePartial?,note?}` | `orders.manage` |
+| `POST /orders/:id/review` (pasa a revisión) · `/accept {items?:[{itemId,authorizedQuantity}],note?}` · `/reserve-pending` · `/prepare {items?:[{itemId,preparedQuantity}],closePartial?,note?}` | `orders.manage` |
 | `POST /orders/:id/dispatch {assignedTo?}` · `/deliver` | `orders.manage` o `deliveries.update` |
 | `POST /orders/:id/confirm-reception` | restaurante dueño del pedido |
 | `POST /orders/:id/cancel {reason}` | almacén (antes de despachar); restaurante solo en `nuevo`/`pendiente_revision` |

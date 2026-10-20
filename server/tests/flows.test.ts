@@ -204,7 +204,7 @@ describe('compras, faltantes y trazabilidad', () => {
   it('conteo físico registra la diferencia', async () => {
     const pid = await createProduct(admin, 'CNT-1');
     await stockUp(almacen, pid, 10);
-    const res = await almacen.post('/api/inventory/counts', { productId: pid, countedQuantity: 8 });
+    const res = await almacen.post('/api/inventory/counts', { productId: pid, countedQuantity: 8, reason: 'Conteo mensual' });
     expect(res.body).toMatchObject({ systemQuantity: 10, difference: -2 });
     expect((await almacen.get(`/api/inventory/${pid}`)).body).toMatchObject({ onHand: 8, lastCountDifference: -2 });
   });

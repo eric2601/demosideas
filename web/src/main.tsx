@@ -62,7 +62,7 @@ function TimezoneSync() {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider locale={esES} theme={{ token: { colorPrimary: '#1668dc', borderRadius: 6 } }}>
-      <AntApp>
+      <AntApp notification={{ top: 72, placement: "topRight", maxCount: 4 }} message={{ top: 72 }}>
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Providers>
             <App />

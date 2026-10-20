@@ -42,7 +42,7 @@ function AdjustModal({ row, onClose }: { row: InventoryRow | null; onClose: () =
           </Form.Item>
         )}
         <Form.Item name="quantity" label="Cantidad" rules={[{ required: true, message: 'Indica la cantidad' }, { type: 'number', min: 0.001, message: 'Debe ser mayor a 0' }]}>
-          <InputNumber style={{ width: '100%' }} min={0} step={1} addonAfter={row?.unitName} />
+          <InputNumber style={{ width: '100%' }} min={0} step={1} suffix={row?.unitName} />
         </Form.Item>
         <Form.Item name="reason" label="Motivo (obligatorio)" rules={[{ required: true, whitespace: true, min: 3, message: 'Indica el motivo (mínimo 3 caracteres)' }]}>
           <Input maxLength={300} placeholder="Ej. merma, error de captura, producto dañado" />
@@ -83,7 +83,7 @@ function CountModal({ row, onClose }: { row: InventoryRow | null; onClose: () =>
           </Typography.Paragraph>
           <Form form={form} layout="vertical" onFinish={(v) => count.mutate(v)}>
             <Form.Item name="countedQuantity" label="Cantidad contada" rules={[{ required: true, message: 'Indica la cantidad contada' }]}>
-              <InputNumber style={{ width: '100%' }} min={0} step={1} addonAfter={row?.unitName} />
+              <InputNumber style={{ width: '100%' }} min={0} step={1} suffix={row?.unitName} />
             </Form.Item>
             <Form.Item name="reason" label="Motivo del conteo (obligatorio)" rules={[{ required: true, whitespace: true, min: 3, message: 'Indica el motivo (mínimo 3 caracteres)' }]}>
               <Input maxLength={200} placeholder="Ej. inventario mensual, revisión por diferencia" />
@@ -120,23 +120,23 @@ export default function InventoryPage() {
         />
       </Space>
       <Table
-        size="middle" rowKey="productId" loading={isLoading} dataSource={data} scroll={{ x: 1100 }}
+        size="middle" rowKey="productId" loading={isLoading} dataSource={data} scroll={{ x: 1400 }}
         pagination={{ pageSize: 25, showSizeChanger: true, showTotal: (t) => `${t} productos` }}
         rowClassName={(r) => (r.stockStatus === 'out' ? 'row-out' : '')}
         columns={[
-          { title: 'Producto', dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name), fixed: 'left', width: 240,
+          { title: 'Producto', dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name), fixed: 'left', width: 250,
             render: (v, r) => <span><b>{v}</b><br /><Typography.Text type="secondary" style={{ fontSize: 12 }}>{r.sku} · {r.categoryName}</Typography.Text></span> },
-          { title: 'Existencia física', dataIndex: 'onHand', align: 'right', sorter: (a, b) => a.onHand - b.onHand, render: (v, r) => `${fmtQty(v)} ${r.unitName}` },
-          { title: 'Reservada', dataIndex: 'reserved', align: 'right', render: fmtQty },
-          { title: 'Disponible', dataIndex: 'available', align: 'right', sorter: (a, b) => a.available - b.available, render: (v) => <b>{fmtQty(v)}</b> },
-          { title: 'Mínimo', dataIndex: 'minStock', align: 'right', render: fmtQty },
-          { title: 'Dif. último conteo', dataIndex: 'lastCountDifference', align: 'right',
+          { title: 'Existencia física', dataIndex: 'onHand', align: 'right', width: 170, sorter: (a, b) => a.onHand - b.onHand, render: (v, r) => <span style={{ whiteSpace: 'nowrap' }}>{fmtQty(v)} {r.unitName}</span> },
+          { title: 'Reservada', dataIndex: 'reserved', align: 'right', width: 110, render: fmtQty },
+          { title: 'Disponible', dataIndex: 'available', align: 'right', width: 130, sorter: (a, b) => a.available - b.available, render: (v) => <b>{fmtQty(v)}</b> },
+          { title: 'Mínimo', dataIndex: 'minStock', align: 'right', width: 100, render: fmtQty },
+          { title: 'Dif. último conteo', dataIndex: 'lastCountDifference', align: 'right', width: 150,
             render: (v: number | null, r) => v === null ? '—' : (
               <Tooltip title={`Contado ${fmtDateTime(r.lastCountedAt)}`}>
                 <Typography.Text type={v === 0 ? undefined : v < 0 ? 'danger' : 'warning'}>{fmtSigned(v)}</Typography.Text>
               </Tooltip>) },
-          { title: 'Último movimiento', dataIndex: 'lastMovementAt', render: fmtDateTime },
-          { title: 'Estado', dataIndex: 'stockStatus', render: (v) => <StatusTag map={STOCK_STATUS} value={v} />,
+          { title: 'Último movimiento', dataIndex: 'lastMovementAt', width: 160, render: fmtDateTime },
+          { title: 'Estado', dataIndex: 'stockStatus', width: 120, render: (v) => <StatusTag map={STOCK_STATUS} value={v} />,
             filters: Object.entries(STOCK_STATUS).map(([value, s]) => ({ value, text: s.label })), onFilter: (v, r) => r.stockStatus === v },
           ...(canAdjust ? [{
             title: 'Acciones', key: 'actions', fixed: 'right' as const, width: 200,

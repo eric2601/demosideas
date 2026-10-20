@@ -46,7 +46,7 @@ function AcceptModal({ order, open, onClose }: { order: OrderDetail; open: boole
           { title: 'Autorizar', key: 'q', align: 'right', width: 170,
             render: (_, i) => (
               <InputNumber
-                min={i.qtyPrepared} max={i.qtyRequested} value={qtys[i.id]} addonAfter={i.unitName} style={{ width: 150 }}
+                min={i.qtyPrepared} max={i.qtyRequested} value={qtys[i.id]} suffix={i.unitName} style={{ width: 150 }}
                 onChange={(v) => setQtys((s) => ({ ...s, [i.id]: v ?? 0 }))}
               />) },
         ]}
@@ -103,7 +103,7 @@ function PrepareModal({ order, open, onClose }: { order: OrderDetail; open: bool
           { title: 'Preparada', key: 'p', align: 'right', width: 170,
             render: (_, i) => (
               <InputNumber
-                min={0} max={Math.min(i.qtyReserved, target(i))} value={qtys[i.id]} addonAfter={i.unitName} style={{ width: 150 }}
+                min={0} max={Math.min(i.qtyReserved, target(i))} value={qtys[i.id]} suffix={i.unitName} style={{ width: 150 }}
                 onChange={(v) => setQtys((s) => ({ ...s, [i.id]: v ?? 0 }))}
               />) },
         ]}

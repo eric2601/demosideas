@@ -35,7 +35,7 @@ export function ItemsFormList({ form, name = 'items' }: { form: FormInstance; na
                       }} />
                   </Form.Item>
                   <Form.Item name={[f.name, 'quantity']} rules={[{ required: true, message: 'Cantidad' }, { type: 'number', min: 0.001, message: '> 0' }]} style={{ flex: '1 1 130px', marginBottom: 0 }}>
-                    <InputNumber placeholder="Cantidad" min={0} style={{ width: '100%' }} addonAfter={unit} />
+                    <InputNumber placeholder="Cantidad" min={0} style={{ width: '100%' }} suffix={unit} />
                   </Form.Item>
                   <Form.Item name={[f.name, 'unitCost']} rules={[{ required: true, message: 'Costo' }]} style={{ flex: '1 1 130px', marginBottom: 0 }}>
                     <InputNumber placeholder="Costo unit." min={0} prefix="$" style={{ width: '100%' }} />

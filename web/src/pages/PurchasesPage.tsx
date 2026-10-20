@@ -49,7 +49,7 @@ function ReceiveModal({ po, open, onClose }: { po: PurchaseDetail; open: boolean
           { title: 'Producto', dataIndex: 'productName' },
           { title: 'Por recibir', dataIndex: 'qtyPending', align: 'right', render: fmtQty },
           { title: 'Cantidad recibida', key: 'q', width: 170, render: (_, i) => (
-            <InputNumber min={0} max={i.qtyPending} value={qtys[i.productId]} style={{ width: 150 }} addonAfter={i.unitName}
+            <InputNumber min={0} max={i.qtyPending} value={qtys[i.productId]} style={{ width: 150 }} suffix={i.unitName}
               onChange={(v) => setQtys((s) => ({ ...s, [i.productId]: v ?? 0 }))} />) },
           { title: 'Costo unit.', key: 'c', width: 130, render: (_, i) => (
             <InputNumber min={0} prefix="$" value={costs[i.productId]} style={{ width: 110 }}
@@ -224,10 +224,10 @@ function OrdersTab() {
       </Space>
       <Table
         size="middle" rowKey="id" loading={isLoading} dataSource={data?.data} scroll={{ x: 1000 }}
-        pagination={{ current: page, pageSize, total: data?.total, showSizeChanger: true, onChange: (p, s) => { setPage(p); setPageSize(s); }, showTotal: (t) => `${t} órdenes` }}
+        pagination={{ current: page, pageSize, total: data?.total, showSizeChanger: true, onChange: (p, s) => { setPage(p); setPageSize(s); }, showTotal: (t) => `Total: ${t}` }}
         onRow={(r) => ({ onClick: () => setDetail(r.id), className: 'row-click' })}
         columns={[
-          { title: 'Folio', dataIndex: 'folio', render: (v) => <b>{v}</b> },
+          { title: 'Folio', dataIndex: 'folio', render: (v) => <b style={{ whiteSpace: 'nowrap' }}>{v}</b> },
           { title: 'Proveedor', dataIndex: 'supplierName' },
           { title: 'Estado', dataIndex: 'status', render: (v) => <StatusTag map={PURCHASE_STATUS} value={v} /> },
           { title: 'Solicitado', dataIndex: 'qtyOrdered', align: 'right', render: fmtQty },
