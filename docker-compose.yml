@@ -1,0 +1,38 @@
+# Servidor del almacén: API + panel web + PostgreSQL.
+# Uso:  cp .env.docker.example .env  (edita los secretos)  →  docker compose up -d --build
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: almacen
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+      POSTGRES_DB: almacen
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Sin "ports": la base de datos NO se expone a la red; solo la API puede alcanzarla.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U almacen"]
+      interval: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgres://almacen:${POSTGRES_PASSWORD}@db:5432/almacen
+      JWT_SECRET: ${JWT_SECRET:?Define JWT_SECRET (32+ caracteres) en .env}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      BACKUP_DIR: /backups
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    volumes:
+      - ./backups:/backups
+
+volumes:
+  pgdata:
