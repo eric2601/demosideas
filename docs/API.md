@@ -45,13 +45,13 @@ Listas paginadas: `?page=1&pageSize=25` → `{ data, total, page, pageSize }`.
 | Ruta | Quién |
 |---|---|
 | `POST /orders {items:[{productId,quantity}],notes?}` + cabecera `Idempotency-Key` | restaurante (201; 200 si la clave ya existía) |
-| `GET /orders?status&q&restaurantId&page`, `GET /orders/:id` | almacén/entrega; el restaurante solo ve los suyos |
+| `GET /orders?status(uno o varios separados por coma)&q&restaurantId&page`, `GET /orders/:id` | almacén/entrega; el restaurante solo ve los suyos |
 | `POST /orders/:id/review` · `/accept {items?:[{itemId,authorizedQuantity}],note?}` · `/reserve-pending` · `/prepare {items?:[{itemId,preparedQuantity}],closePartial?,note?}` | `orders.manage` |
 | `POST /orders/:id/dispatch {assignedTo?}` · `/deliver` | `orders.manage` o `deliveries.update` |
 | `POST /orders/:id/confirm-reception` | restaurante dueño del pedido |
 | `POST /orders/:id/cancel {reason}` | almacén (antes de despachar); restaurante solo en `nuevo`/`pendiente_revision` |
 | `GET /deliveries`, `GET /delivery-staff` | `deliveries.read` |
-| `GET /restaurant-catalog` | restaurante: catálogo activo y autorizado con `available`, `stockStatus` (y `price` si está habilitado) |
+| `GET /restaurant-catalog` | restaurante: catálogo activo y autorizado con `available`, `stockStatus` (`ok|low|out`) (y `price` si está habilitado) |
 
 Estados: `nuevo → pendiente_revision → en_preparacion ⇄ parcialmente_surtido → listo_entrega → en_entrega → entregado` (y `cancelado` antes de `en_entrega`).
 Partidas: `qtyRequested, qtyAuthorized, qtyReserved*, qtyPrepared, qtyDelivered, qtyPending` (*solo personal).

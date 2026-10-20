@@ -381,7 +381,7 @@ export interface OrderFilter { status?: string; restaurantId?: number; q?: strin
 export async function listOrders(f: OrderFilter) {
   const where: string[] = []; const params: unknown[] = [];
   const add = (sql: string, v: unknown) => { params.push(v); where.push(sql.replace('?', `$${params.length}`)); };
-  if (f.status) add('o.status = ?', f.status);
+  if (f.status) add('o.status = ANY(string_to_array(?, \',\'))', f.status);
   if (f.restaurantId) add('o.restaurant_id = ?', f.restaurantId);
   if (f.q) add('(o.folio ILIKE ? OR r.name ILIKE ?)', `%${f.q}%`);
   if (f.roleScope?.role === 'entrega') where.push(`o.status IN ('listo_entrega','en_entrega','entregado')`);
@@ -425,7 +425,8 @@ export async function getOrder(id: number, user: AuthUser) {
        FROM deliveries d LEFT JOIN users a ON a.id = d.assigned_to WHERE d.order_id = $1`, [id]);
   // El restaurante no ve notas internas del historial de bodega ni existencias
   if (user.restaurantId) {
-    return { ...order, items: items.map(({ availableNow, qtyReserved, qtyUnreserved, ...rest }) => rest), events: events.filter((e) => e.event !== 'reserva_adicional'), delivery };
+    const showPrices = (await db.one<{ value: boolean }>(`SELECT value FROM settings WHERE key = 'show_prices'`))?.value === true;
+    return { ...order, items: items.map(({ availableNow, qtyReserved, qtyUnreserved, unitPrice, ...rest }) => (showPrices ? { ...rest, unitPrice } : rest)), events: events.filter((e) => e.event !== 'reserva_adicional'), delivery };
   }
   return { ...order, items, events, delivery };
 }

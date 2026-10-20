@@ -27,7 +27,7 @@ function AdjustModal({ row, onClose }: { row: InventoryRow | null; onClose: () =
   return (
     <Modal
       open={!!row} onCancel={onClose} title={`Ajustar inventario: ${row?.name ?? ''}`} okText="Registrar ajuste" cancelText="Cancelar"
-      onOk={() => form.submit()} confirmLoading={adjust.isPending} destroyOnClose afterClose={() => form.resetFields()}
+      onOk={() => form.submit()} confirmLoading={adjust.isPending} destroyOnHidden afterClose={() => form.resetFields()}
     >
       <Typography.Paragraph type="secondary">
         Existencia física actual: <b>{fmtQty(row?.onHand)} {row?.unitName}</b>. Los ajustes generan un movimiento nuevo; nunca editan el historial.
@@ -66,7 +66,7 @@ function CountModal({ row, onClose }: { row: InventoryRow | null; onClose: () =>
   const close = () => { setResult(null); onClose(); };
   return (
     <Modal
-      open={!!row} onCancel={close} title={`Conteo físico: ${row?.name ?? ''}`} destroyOnClose afterClose={() => form.resetFields()}
+      open={!!row} onCancel={close} title={`Conteo físico: ${row?.name ?? ''}`} destroyOnHidden afterClose={() => form.resetFields()}
       okText="Registrar conteo" cancelText={result ? 'Cerrar' : 'Cancelar'} okButtonProps={{ style: result ? { display: 'none' } : undefined }}
       onOk={() => form.submit()} confirmLoading={count.isPending}
     >

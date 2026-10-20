@@ -13,5 +13,4 @@ export type AppStackParams = {
   Tabs: undefined;
   Resumen: undefined;
   DetallePedido: { orderId: number; justCreated?: boolean };
-  CambiarClave: undefined;
 };

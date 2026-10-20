@@ -32,7 +32,7 @@ function AcceptModal({ order, open, onClose }: { order: OrderDetail; open: boole
   return (
     <Modal
       open={open} onCancel={onClose} width={820} title={isNew ? `Aceptar pedido ${order.folio}` : `Editar cantidades autorizadas ${order.folio}`}
-      okText={isNew ? 'Aceptar pedido' : 'Guardar cantidades'} cancelText="Cancelar" onOk={() => accept.mutate()} confirmLoading={accept.isPending} destroyOnClose
+      okText={isNew ? 'Aceptar pedido' : 'Guardar cantidades'} cancelText="Cancelar" onOk={() => accept.mutate()} confirmLoading={accept.isPending} destroyOnHidden
     >
       <Typography.Paragraph type="secondary">
         Ajusta la cantidad autorizada de cada partida (no puede exceder lo solicitado). Se reservará la existencia disponible.
@@ -75,7 +75,7 @@ function PrepareModal({ order, open, onClose }: { order: OrderDetail; open: bool
   const complete = order.items.every((i) => (qtys[i.id] ?? 0) === target(i));
   return (
     <Modal
-      open={open} onCancel={onClose} width={860} title={`Preparar pedido ${order.folio}`} destroyOnClose
+      open={open} onCancel={onClose} width={860} title={`Preparar pedido ${order.folio}`} destroyOnHidden
       footer={(
         <Space wrap>
           <Button onClick={onClose}>Cancelar</Button>
@@ -125,7 +125,7 @@ function DispatchModal({ order, open, onClose }: { order: OrderDetail; open: boo
   return (
     <Modal
       open={open} onCancel={onClose} title={`Despachar pedido ${order.folio}`} okText="Confirmar despacho" cancelText="Cancelar"
-      onOk={() => dispatch.mutate()} confirmLoading={dispatch.isPending} destroyOnClose
+      onOk={() => dispatch.mutate()} confirmLoading={dispatch.isPending} destroyOnHidden
     >
       <Alert type="warning" showIcon style={{ marginBottom: 16 }} message="Al despachar, la mercancía preparada sale definitivamente del inventario." />
       <Typography.Text>Repartidor responsable</Typography.Text>
@@ -145,7 +145,7 @@ function CancelModal({ order, open, onClose }: { order: OrderDetail; open: boole
   return (
     <Modal
       open={open} onCancel={onClose} title={`Cancelar pedido ${order.folio}`} okText="Cancelar pedido" cancelText="Volver" okButtonProps={{ danger: true }}
-      onOk={() => form.submit()} confirmLoading={cancel.isPending} destroyOnClose afterClose={() => form.resetFields()}
+      onOk={() => form.submit()} confirmLoading={cancel.isPending} destroyOnHidden afterClose={() => form.resetFields()}
     >
       <Alert type="warning" showIcon style={{ marginBottom: 16 }} message="Se liberarán las reservas y se avisará al restaurante." />
       <Form form={form} layout="vertical" onFinish={(v) => cancel.mutate(v.reason)}>

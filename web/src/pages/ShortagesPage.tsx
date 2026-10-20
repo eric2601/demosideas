@@ -19,7 +19,7 @@ function NewShortageModal({ open, onClose }: { open: boolean; onClose: () => voi
   return (
     <Modal
       open={open} onCancel={onClose} title="Alta manual de faltante" okText="Registrar" cancelText="Cancelar"
-      onOk={() => form.submit()} confirmLoading={create.isPending} destroyOnClose afterClose={() => form.resetFields()}
+      onOk={() => form.submit()} confirmLoading={create.isPending} destroyOnHidden afterClose={() => form.resetFields()}
     >
       <Form form={form} layout="vertical" initialValues={{ priority: 'media' }} onFinish={(v) => create.mutate(v)}>
         <Form.Item name="productId" label="Producto" rules={[{ required: true, message: 'Elige el producto' }]}><ProductSelect style={{ width: '100%' }} /></Form.Item>
@@ -107,7 +107,7 @@ export default function ShortagesPage() {
               : <StatusTag map={PRIORITY} value={v} /> },
           { title: 'Estado', dataIndex: 'status',
             render: (v: ShortageStatus, r) => write && v !== 'resuelto'
-              ? <Select size="small" value={v} style={{ width: 190 }} options={options(SHORTAGE_STATUS)} onChange={(s) => {
+              ? <Select size="small" value={v} style={{ width: 190 }} options={options(SHORTAGE_STATUS)} onChange={(s: ShortageStatus) => {
                   if (s === 'resuelto') {
                     Modal.confirm({ title: '¿Marcar el faltante como resuelto?', okText: 'Resolver', cancelText: 'No', onOk: () => patch.mutateAsync({ id: r.id, status: s }) });
                   } else patch.mutate({ id: r.id, status: s });

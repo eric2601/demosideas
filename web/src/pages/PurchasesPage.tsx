@@ -38,7 +38,7 @@ function ReceiveModal({ po, open, onClose }: { po: PurchaseDetail; open: boolean
   );
   return (
     <Modal
-      open={open} onCancel={onClose} width={860} title={`Recibir mercancía · ${po.folio}`} destroyOnClose
+      open={open} onCancel={onClose} width={860} title={`Recibir mercancía · ${po.folio}`} destroyOnHidden
       okText={complete ? 'Registrar recepción completa' : 'Registrar recepción parcial'} cancelText="Cancelar"
       okButtonProps={{ disabled: !lines.length }} onOk={() => receive.mutate()} confirmLoading={receive.isPending}
     >
@@ -77,7 +77,7 @@ function PurchaseDrawer({ id, onClose }: { id: number | null; onClose: () => voi
     invalidate: STOCK_KEYS, success: 'Orden cancelada', onSuccess: () => setCancelling(false),
   });
 
-  const initial: PurchaseInitial | null = po && {
+  const initial: PurchaseInitial | undefined = po && {
     supplierId: po.supplierId, expectedDate: po.expectedDate, notes: po.notes,
     shortageIds: po.shortages.map((s) => s.id),
     items: po.items.map((i) => ({ productId: i.productId, quantity: i.qtyOrdered, unitCost: i.unitCost })),
@@ -270,7 +270,7 @@ function SuppliersTab() {
         ]}
       />
       <Modal open={!!editing} title={editing?.id ? 'Editar proveedor' : 'Nuevo proveedor'} okText="Guardar" cancelText="Cancelar" onCancel={() => setEditing(null)}
-        onOk={() => form.submit()} confirmLoading={save.isPending} destroyOnClose>
+        onOk={() => form.submit()} confirmLoading={save.isPending} destroyOnHidden>
         <Form form={form} layout="vertical" initialValues={editing ?? {}} onFinish={(v) => save.mutate({ ...v, active: v.active ?? true })}>
           <Form.Item name="name" label="Nombre" rules={[{ required: true, whitespace: true, message: 'Indica el nombre' }]}><Input maxLength={120} /></Form.Item>
           <Form.Item name="contact" label="Contacto"><Input maxLength={120} /></Form.Item>

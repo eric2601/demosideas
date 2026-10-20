@@ -36,7 +36,7 @@ export function PurchaseFormModal({ open, onClose, initial, editId, onDone }: {
     <Modal
       open={open} onCancel={onClose} width={840} title={editId ? 'Editar orden de compra (borrador)' : 'Nueva orden de compra'}
       okText={editId ? 'Guardar cambios' : 'Crear orden'} cancelText="Cancelar" onOk={() => form.submit()}
-      confirmLoading={save.isPending} destroyOnClose maskClosable={false}
+      confirmLoading={save.isPending} destroyOnHidden maskClosable={false}
     >
       <Form
         form={form} layout="vertical" onFinish={(v) => save.mutate(v)}

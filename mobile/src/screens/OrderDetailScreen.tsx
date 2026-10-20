@@ -82,7 +82,7 @@ export function OrderDetailScreen({ route }: Props) {
     );
   };
 
-  const hasPartial = order.items.some((i) => i.qtyDelivered > 0 && i.qtyPending > 0);
+  const hasPartial = order.items.some((i) => remaining(i) > 0 && i.qtyDelivered > 0);
   const preparedShort = ['parcialmente_surtido', 'listo_entrega', 'en_entrega'].includes(order.status);
 
   return (
@@ -161,15 +161,28 @@ export function OrderDetailScreen({ route }: Props) {
 }
 
 function eventTitle(event: string, to: string | null): string {
-  if (event === 'creado') return 'Pedido creado';
+  const known: Record<string, string> = {
+    creado: 'Pedido creado',
+    recepcion_confirmada: 'Recepción confirmada',
+    cantidades_ajustadas: 'El almacén ajustó las cantidades',
+    cancelado: 'Pedido cancelado',
+  };
+  if (known[event]) return known[event];
   if (to) return statusInfo(to).label;
   return event.replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+}
+
+/** Lo que aún falta por entregar de lo autorizado (el servidor calcula pendiente contra lo solicitado). */
+function remaining(i: OrderItem): number {
+  const target = i.qtyAuthorized ?? i.qtyRequested;
+  return Math.max(Math.round((target - i.qtyDelivered) * 1000) / 1000, 0);
 }
 
 function ItemCard({ item, showPrepared }: { item: OrderItem; showPrepared: boolean }) {
   const authorized = item.qtyAuthorized ?? item.qtyRequested;
   const reduced = item.qtyAuthorized !== null && item.qtyAuthorized < item.qtyRequested;
-  const partial = item.qtyDelivered > 0 && item.qtyPending > 0;
+  const left = remaining(item);
+  const partial = item.qtyDelivered > 0 && left > 0;
   const u = item.unitName;
   return (
     <Card style={partial ? { borderColor: colors.warning } : undefined}>
@@ -185,7 +198,7 @@ function ItemCard({ item, showPrepared }: { item: OrderItem; showPrepared: boole
       {reduced ? <Text style={styles.warnText}>El almacén autorizó menos de lo que pediste.</Text> : null}
       {partial ? (
         <Text style={styles.warnText}>
-          Se entregó {formatQuantity(item.qtyDelivered)} {u}; quedan pendientes {formatQuantity(item.qtyPending)} {u}.
+          Se entregó {formatQuantity(item.qtyDelivered)} {u}; falta por entregar {formatQuantity(left)} {u}.
         </Text>
       ) : null}
     </Card>

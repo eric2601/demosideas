@@ -23,7 +23,7 @@ export function ChangePasswordModal({ open, onClose, forced }: { open: boolean; 
   return (
     <Modal
       title="Cambiar contraseña" open={open} onCancel={onClose} okText="Guardar" cancelText={forced ? 'Más tarde' : 'Cancelar'}
-      confirmLoading={change.isPending} onOk={() => form.submit()} destroyOnClose maskClosable={false}
+      confirmLoading={change.isPending} onOk={() => form.submit()} destroyOnHidden maskClosable={false}
     >
       {forced && <Alert type="warning" showIcon style={{ marginBottom: 16 }}
         message="Tu contraseña es temporal. Te recomendamos cambiarla ahora." />}

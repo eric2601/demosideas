@@ -76,7 +76,7 @@ export function RealtimeProvider({ children }: { children: ReactNode }) {
             <div>{fmtTime(p.at)} · {p.itemCount} producto{p.itemCount === 1 ? '' : 's'}</div>
           </div>
         ),
-        btn: <Button type="primary" size="small" onClick={() => goto(`/pedidos/${p.orderId}`, key)}>Ver pedido</Button>,
+        actions: <Button type="primary" size="small" onClick={() => goto(`/pedidos/${p.orderId}`, key)}>Ver pedido</Button>,
         placement: 'topRight',
         duration: 20,
       });
@@ -126,7 +126,7 @@ export function RealtimeProvider({ children }: { children: ReactNode }) {
         type: warn ? 'warning' : 'info',
         message: n.title,
         description: n.body,
-        btn: <Button size="small" onClick={() => goto(link, key)}>Abrir</Button>,
+        actions: <Button size="small" onClick={() => goto(link, key)}>Abrir</Button>,
         placement: 'topRight',
         duration: 10,
       });

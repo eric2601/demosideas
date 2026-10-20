@@ -73,7 +73,7 @@ export default function DashboardPage() {
             {data && data.ordersByStatus.length ? (
               <ResponsiveContainer width="100%" height={260}>
                 <PieChart>
-                  <Pie data={data.ordersByStatus.map((s) => ({ ...s, name: ORDER_STATUS[s.status]?.label ?? s.status }))} dataKey="count" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={2} label={(e) => e.value}>
+                  <Pie isAnimationActive={false} data={data.ordersByStatus.map((s) => ({ ...s, name: ORDER_STATUS[s.status]?.label ?? s.status }))} dataKey="count" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={2} label={(e) => e.value}>
                     {data.ordersByStatus.map((s) => <Cell key={s.status} fill={STATUS_HEX[s.status] ?? '#999'} />)}
                   </Pie>
                   <Tooltip />
@@ -92,8 +92,8 @@ export default function DashboardPage() {
                 <YAxis fontSize={12} />
                 <Tooltip formatter={(v: number) => fmtQty(v)} />
                 <Legend />
-                <Bar dataKey="entries" name="Entradas" fill="#389e0d" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="exits" name="Salidas" fill="#d46b08" radius={[3, 3, 0, 0]} />
+                <Bar isAnimationActive={false} dataKey="entries" name="Entradas" fill="#389e0d" radius={[3, 3, 0, 0]} />
+                <Bar isAnimationActive={false} dataKey="exits" name="Salidas" fill="#d46b08" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Card>
@@ -107,7 +107,7 @@ export default function DashboardPage() {
               size="small" rowKey="id" pagination={false} loading={isLoading} dataSource={data?.recentOrders} scroll={{ x: 520 }}
               onRow={(r) => ({ onClick: () => navigate(`/pedidos/${r.id}`), className: 'row-click' })}
               columns={[
-                { title: 'Folio', dataIndex: 'folio', render: (v) => <b>{v}</b> },
+                { title: "Folio", dataIndex: "folio", render: (v) => <b style={{ whiteSpace: "nowrap" }}>{v}</b> },
                 { title: 'Restaurante', dataIndex: 'restaurantName' },
                 { title: 'Productos', dataIndex: 'itemCount', align: 'right' },
                 { title: 'Estado', dataIndex: 'status', render: (v) => <StatusTag map={ORDER_STATUS} value={v} /> },

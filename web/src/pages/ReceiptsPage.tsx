@@ -21,7 +21,7 @@ function ReceiptForm({ open, onClose }: { open: boolean; onClose: () => void }) 
   return (
     <Modal
       open={open} onCancel={onClose} title="Nueva entrada de mercancía" width={820} okText="Registrar entrada" cancelText="Cancelar"
-      onOk={() => form.submit()} confirmLoading={create.isPending} destroyOnClose maskClosable={false} afterClose={() => form.resetFields()}
+      onOk={() => form.submit()} confirmLoading={create.isPending} destroyOnHidden maskClosable={false} afterClose={() => form.resetFields()}
     >
       <Form form={form} layout="vertical" initialValues={{ items: [{}] }} onFinish={(v) => create.mutate(v)}>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>

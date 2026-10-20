@@ -9,7 +9,7 @@ export function ReasonModal({ open, title, okText, loading, onCancel, onSubmit, 
   return (
     <Modal
       open={open} title={title} okText={okText} cancelText="Volver" okButtonProps={{ danger: true }}
-      onCancel={onCancel} onOk={() => form.submit()} confirmLoading={loading} destroyOnClose afterClose={() => form.resetFields()}
+      onCancel={onCancel} onOk={() => form.submit()} confirmLoading={loading} destroyOnHidden afterClose={() => form.resetFields()}
     >
       <Form form={form} layout="vertical" onFinish={(v) => onSubmit(v.reason)}>
         <Form.Item name="reason" label={label} rules={[{ required: true, whitespace: true, min: 3, message: 'Indica el motivo (mínimo 3 caracteres)' }]}>

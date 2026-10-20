@@ -19,7 +19,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1565C0"
       },
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"]
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "edgeToEdgeEnabled": false
     },
     "plugins": [
       "expo-secure-store",
@@ -30,7 +34,9 @@
             "usesCleartextTraffic": true
           }
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-font"
     ]
   }
 }

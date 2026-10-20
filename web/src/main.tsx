@@ -63,7 +63,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider locale={esES} theme={{ token: { colorPrimary: '#1668dc', borderRadius: 6 } }}>
       <AntApp>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Providers>
             <App />
           </Providers>
